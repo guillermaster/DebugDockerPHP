@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - "3999:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: htmniseko
+      MYSQL_DATABASE: htm
+      MYSQL_USER: htm-devops
+      MYSQL_PASSWORD: htmniseko
+
+  app:
+    depends_on:
+      - db
+    build: .
+    ports:
+      - "8999:80"
+    volumes:
+      - ./html:/var/www/html
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_PASSWORD: htmniseko
+      XDEBUG-CONFIG: remote_host=10.1.1.159
